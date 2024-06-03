@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        jdk 'jdk11'
+        jdk 'jdk17'
         maven 'maven3'
     }
     
@@ -57,7 +57,7 @@ pipeline {
         
          stage('Publish to Nexus') {
             steps {
-                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk11', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
                     sh 'mvn deploy'
                 }
             }
