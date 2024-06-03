@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        jdk 'jdk17'
+        jdk 'jdk11'
         maven 'maven3'
     }
     
@@ -57,7 +57,7 @@ pipeline {
         
          stage('Publish to Nexus') {
             steps {
-                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk11', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
                     sh 'mvn deploy'
                 }
             }
@@ -94,16 +94,16 @@ pipeline {
             }
         }
         
-        stage('deployment on k8s') {
-            steps {
-                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8s-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://15.207.113.247:6443') {
+//         stage('deployment on k8s') {
+//             steps {
+//                 withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8s-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://15.207.113.247:6443') {
                   
-                   sh "kubectl apply -f deployment-service.yaml"
-                }
-            }
-        }
+//                    sh "kubectl apply -f deployment-service.yaml"
+//                 }
+//             }
+//         }
         
         
          
-    }
-}
+//     }
+// }
