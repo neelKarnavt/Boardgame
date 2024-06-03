@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('GIT checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/sagarkulkarni1989/Boardgame.git'
+                git branch: 'main', url: 'https://github.com/neelKarnavt/Boardgame.git'
             }
         }
         
