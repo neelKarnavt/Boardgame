@@ -29,25 +29,25 @@ pipeline {
         //     }
         // }
         
-        // stage('Trivy scan report') {
-        //     steps {
-        //         sh 'trivy fs --format table -o trivy-fs-report.html .'
-        //     }
-        // }
+        stage('Trivy scan report') {
+            steps {
+                sh 'trivy fs --format table -o trivy-fs-report.html .'
+            }
+        }
         
-        // stage('Sonarqube scan analysis') {
-        //     steps {
-        //         withSonarQubeEnv('sonar') {
-        //             sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=BoardGame -Dsonar.projectKey=BoardGame -Dsonar.java.binaries=. '''
-        //         }
-        //     }
-        // }
+        stage('Sonarqube scan analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=BoardGame -Dsonar.projectKey=BoardGame -Dsonar.java.binaries=. '''
+                }
+            }
+        }
         
-        // stage('Quality Gate') {
-        //     steps {
-        //         waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
-        //     }
-        // }
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+            }
+        }
         
         stage('MVN build') {
             steps {
