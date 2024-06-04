@@ -35,19 +35,19 @@ pipeline {
             }
         }
         
-        // stage('Sonarqube scan analysis') {
-        //     steps {
-        //         withSonarQubeEnv('sonar') {
-        //             sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=BoardGame -Dsonar.projectKey=BoardGame -Dsonar.java.binaries=. '''
-        //         }
-        //     }
-        // }
+        stage('Sonarqube scan analysis') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=BoardGame -Dsonar.projectKey=BoardGame -Dsonar.java.binaries=. '''
+                }
+            }
+        }
         
-        // stage('Quality Gate') {
-        //     steps {
-        //         waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
-        //     }
-        // }
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
+            }
+        }
         
         stage('MVN build') {
             steps {
@@ -68,7 +68,7 @@ pipeline {
                 script{
                     
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t gita/boardshack:latest ."
+                        sh "docker build -t neelkarnavat/boardshack:latest ."
                         
    
                     }
@@ -77,7 +77,7 @@ pipeline {
         }
         stage('DOcker Image Scan') {
             steps {
-                sh 'trivy image --format table -o trivy-fs-report.html gita/boardshack:latest'
+                sh 'trivy image --format table -o trivy-fs-report.html neelkarnavat/boardshack:latest'
             }
         }
         
@@ -86,7 +86,7 @@ pipeline {
                 script{
                     
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push gita/boardshack:latest"
+                        sh "docker push neelkarnavat/boardshack:latest"
                         
    
                     }
